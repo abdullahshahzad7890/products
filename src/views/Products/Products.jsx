@@ -253,21 +253,7 @@ const Products = () => {
                             }}
                           >
                             <h3>Product Details:</h3>
-                            <div>
-                              <strong>Eligibility:</strong>
-                              <ul>
-                                {productDetails[product.productId]
-                                  .eligibility &&
-                                  productDetails[
-                                    product.productId
-                                  ].eligibility.map((elig, index) => (
-                                    <li key={index}>
-                                      {elig.eligibilityType}:{" "}
-                                      {elig.additionalInfo}
-                                    </li>
-                                  ))}
-                              </ul>
-                            </div>
+
                             <div>
                               <strong>Fees:</strong>
                               <table
