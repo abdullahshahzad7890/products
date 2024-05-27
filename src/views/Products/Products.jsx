@@ -13,6 +13,7 @@ const Products = () => {
   const [productDetails, setProductDetails] = useState({});
   const [brandSummary, setBrandSummary] = useState(null);
   const [summaryLoading, setSummaryLoading] = useState(false);
+  const [noMortgages, setNoMortgages] = useState({});
 
   const fetchData = async (publicBaseUri, brandName) => {
     try {
@@ -51,6 +52,12 @@ const Products = () => {
         ...prevData,
         [brandName]: filteredProducts,
       }));
+
+      setNoMortgages((prevNoMortgages) => ({
+        ...prevNoMortgages,
+        [brandName]: filteredProducts.length === 0,
+      }));
+
       setLoading((prevLoading) => ({
         ...prevLoading,
         [brandName]: false,
@@ -133,7 +140,11 @@ const Products = () => {
               summary.map((brand) => (
                 <div key={brand.brandId} style={{ padding: "10px" }}>
                   <div
-                    style={{ cursor: "pointer", color: "blue" }}
+                    style={{
+                      cursor: "pointer",
+                      color: "blue",
+                      marginBottom: "10px",
+                    }}
                     onClick={() =>
                       handleBrandClick(brand.publicBaseUri, brand.brandName)
                     }
@@ -142,23 +153,39 @@ const Products = () => {
                   </div>
                   {loading[brand.brandName] && <div>Loading...</div>}
                   {data[brand.brandName] &&
-                    data[brand.brandName].length > 0 && (
+                    (data[brand.brandName].length > 0 ? (
                       <table
                         style={{
                           marginLeft: "20px",
                           borderCollapse: "collapse",
                           width: "100%",
+                          marginBottom: "20px",
                         }}
                       >
                         <thead>
                           <tr>
-                            <th style={{ border: "1px solid black" }}>
+                            <th
+                              style={{
+                                border: "1px solid black",
+                                padding: "5px",
+                              }}
+                            >
                               Product Name
                             </th>
-                            <th style={{ border: "1px solid black" }}>
+                            <th
+                              style={{
+                                border: "1px solid black",
+                                padding: "5px",
+                              }}
+                            >
                               Category
                             </th>
-                            <th style={{ border: "1px solid black" }}>
+                            <th
+                              style={{
+                                border: "1px solid black",
+                                padding: "5px",
+                              }}
+                            >
                               Last Updated
                             </th>
                           </tr>
@@ -175,26 +202,55 @@ const Products = () => {
                               }
                               style={{ cursor: "pointer" }}
                             >
-                              <td style={{ border: "1px solid black" }}>
+                              <td
+                                style={{
+                                  border: "1px solid black",
+                                  padding: "5px",
+                                }}
+                              >
                                 {product.name}
                               </td>
-                              <td style={{ border: "1px solid black" }}>
+                              <td
+                                style={{
+                                  border: "1px solid black",
+                                  padding: "5px",
+                                }}
+                              >
                                 {product.productCategory}
                               </td>
-                              <td style={{ border: "1px solid black" }}>
+                              <td
+                                style={{
+                                  border: "1px solid black",
+                                  padding: "5px",
+                                }}
+                              >
                                 {product.lastUpdated}
                               </td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
-                    )}
+                    ) : (
+                      noMortgages[brand.brandName] && (
+                        <div style={{ marginLeft: "20px", color: "red" }}>
+                          No residential mortgages available.
+                        </div>
+                      )
+                    ))}
                   {data[brand.brandName] &&
                     data[brand.brandName].map((product) => (
-                      <div key={product.productId}>
+                      <div
+                        key={product.productId}
+                        style={{ marginLeft: "20px", marginBottom: "20px" }}
+                      >
                         {productDetails[product.productId] && (
                           <div
-                            style={{ marginLeft: "40px", paddingTop: "10px" }}
+                            style={{
+                              padding: "10px",
+                              border: "1px solid #ddd",
+                              borderRadius: "5px",
+                              backgroundColor: "#f9f9f9",
+                            }}
                           >
                             <h3>Product Details:</h3>
                             <div>
@@ -218,17 +274,33 @@ const Products = () => {
                                 style={{
                                   borderCollapse: "collapse",
                                   width: "100%",
+                                  marginBottom: "10px",
                                 }}
                               >
                                 <thead>
                                   <tr>
-                                    <th style={{ border: "1px solid black" }}>
+                                    <th
+                                      style={{
+                                        border: "1px solid black",
+                                        padding: "5px",
+                                      }}
+                                    >
                                       Fee Type
                                     </th>
-                                    <th style={{ border: "1px solid black" }}>
+                                    <th
+                                      style={{
+                                        border: "1px solid black",
+                                        padding: "5px",
+                                      }}
+                                    >
                                       Name
                                     </th>
-                                    <th style={{ border: "1px solid black" }}>
+                                    <th
+                                      style={{
+                                        border: "1px solid black",
+                                        padding: "5px",
+                                      }}
+                                    >
                                       Amount
                                     </th>
                                   </tr>
@@ -241,6 +313,7 @@ const Products = () => {
                                           <td
                                             style={{
                                               border: "1px solid black",
+                                              padding: "5px",
                                             }}
                                           >
                                             {fee.feeType}
@@ -248,6 +321,7 @@ const Products = () => {
                                           <td
                                             style={{
                                               border: "1px solid black",
+                                              padding: "5px",
                                             }}
                                           >
                                             {fee.name}
@@ -255,6 +329,7 @@ const Products = () => {
                                           <td
                                             style={{
                                               border: "1px solid black",
+                                              padding: "5px",
                                             }}
                                           >
                                             {fee.amount || fee.transactionRate}{" "}
@@ -272,14 +347,25 @@ const Products = () => {
                                 style={{
                                   borderCollapse: "collapse",
                                   width: "100%",
+                                  marginBottom: "10px",
                                 }}
                               >
                                 <thead>
                                   <tr>
-                                    <th style={{ border: "1px solid black" }}>
+                                    <th
+                                      style={{
+                                        border: "1px solid black",
+                                        padding: "5px",
+                                      }}
+                                    >
                                       Feature Type
                                     </th>
-                                    <th style={{ border: "1px solid black" }}>
+                                    <th
+                                      style={{
+                                        border: "1px solid black",
+                                        padding: "5px",
+                                      }}
+                                    >
                                       Additional Info
                                     </th>
                                   </tr>
@@ -291,12 +377,18 @@ const Products = () => {
                                     ].features.map((feature, index) => (
                                       <tr key={index}>
                                         <td
-                                          style={{ border: "1px solid black" }}
+                                          style={{
+                                            border: "1px solid black",
+                                            padding: "5px",
+                                          }}
                                         >
                                           {feature.featureType}
                                         </td>
                                         <td
-                                          style={{ border: "1px solid black" }}
+                                          style={{
+                                            border: "1px solid black",
+                                            padding: "5px",
+                                          }}
                                         >
                                           {feature.additionalValue ||
                                             feature.additionalInfo}
@@ -312,17 +404,33 @@ const Products = () => {
                                 style={{
                                   borderCollapse: "collapse",
                                   width: "100%",
+                                  marginBottom: "10px",
                                 }}
                               >
                                 <thead>
                                   <tr>
-                                    <th style={{ border: "1px solid black" }}>
+                                    <th
+                                      style={{
+                                        border: "1px solid black",
+                                        padding: "5px",
+                                      }}
+                                    >
                                       Rate Type
                                     </th>
-                                    <th style={{ border: "1px solid black" }}>
+                                    <th
+                                      style={{
+                                        border: "1px solid black",
+                                        padding: "5px",
+                                      }}
+                                    >
                                       Rate
                                     </th>
-                                    <th style={{ border: "1px solid black" }}>
+                                    <th
+                                      style={{
+                                        border: "1px solid black",
+                                        padding: "5px",
+                                      }}
+                                    >
                                       Additional Info
                                     </th>
                                   </tr>
@@ -335,17 +443,26 @@ const Products = () => {
                                     ].lendingRates.map((rate, index) => (
                                       <tr key={index}>
                                         <td
-                                          style={{ border: "1px solid black" }}
+                                          style={{
+                                            border: "1px solid black",
+                                            padding: "5px",
+                                          }}
                                         >
                                           {rate.lendingRateType}
                                         </td>
                                         <td
-                                          style={{ border: "1px solid black" }}
+                                          style={{
+                                            border: "1px solid black",
+                                            padding: "5px",
+                                          }}
                                         >
                                           {rate.rate}
                                         </td>
                                         <td
-                                          style={{ border: "1px solid black" }}
+                                          style={{
+                                            border: "1px solid black",
+                                            padding: "5px",
+                                          }}
                                         >
                                           {rate.additionalInfo}
                                         </td>
@@ -368,7 +485,7 @@ const Products = () => {
           </div>
         )}
       </div>
-      {error && <div>Error: {error}</div>}
+      {error && <div style={{ color: "red" }}>Error: {error}</div>}
     </Layout>
   );
 };
