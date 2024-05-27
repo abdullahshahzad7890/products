@@ -1,0 +1,46 @@
+@import "../../styles/colors.scss";
+
+$sidebar-width-closed: 117px;
+$sidebar-width-open: 222px;
+$sidebar-height: 1076px;
+
+.sidebar {
+  width: $sidebar-width-closed;
+  height: $sidebar-height;
+
+  margin: 0 5px;
+  background-color: $backgroundPrimary;
+  color: $colorBlack;
+  overflow: hidden;
+  transition: width 0.3s ease;
+
+  &.hidden {
+    display: none;
+  }
+
+  &.open {
+    width: $sidebar-width-open;
+  }
+
+  .logoAndChevron {
+    padding: 24px 16px;
+    margin-bottom: 25px;
+    cursor: pointer;
+
+    .logo {
+      margin-top: 17px;
+    }
+
+    .chevron {
+      display: flex;
+      justify-content: center;
+    }
+
+    &.expanded {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+  }
+}

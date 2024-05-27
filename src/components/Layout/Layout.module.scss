@@ -1,0 +1,42 @@
+.mainContainer {
+  display: flex;
+  overflow-x: hidden;
+  background: #f9fafb;
+
+  .pageContentContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    box-sizing: border-box;
+    padding: 18px 20px;
+
+    .navContainer {
+      display: flex;
+      gap: 16px;
+      justify-content: flex-end;
+      height: 32px;
+      align-items: center;
+
+      .barsIcon {
+        display: none;
+      }
+
+      .profileMenu {
+        display: flex;
+        justify-content: flex-end;
+
+        padding: 10px 0;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .navContainer {
+    margin-right: 12px;
+
+    .barsIcon {
+      display: block !important;
+    }
+  }
+}

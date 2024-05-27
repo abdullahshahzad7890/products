@@ -1,0 +1,165 @@
+@import "../../styles/colors.scss";
+
+.container {
+  display: flex;
+  background: $backgroundPrimary;
+
+  flex-direction: column;
+  padding: 24px;
+  margin-top: 24px;
+
+  font-family: Inter;
+
+  .headerText {
+    margin-bottom: 24px;
+
+    h1 {
+      color: $textPrimary;
+      font-size: 30px;
+      line-height: 38px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    h2 {
+      color: $textPrimary;
+      font-size: 30px;
+      line-height: 38px;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .description {
+      color: $textSecondary;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      margin-top: 4px;
+    }
+  }
+
+  .percentageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 24px 12px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+
+    border-radius: 12px;
+    border: 1px solid $outlineDefault;
+    background: $backgroundPrimary;
+
+    box-shadow: 0px 1px 3px 0px rgba(16, 24, 40, 0.1),
+      0px 1px 2px 0px rgba(16, 24, 40, 0.06);
+
+    h2 {
+      color: $textPrimary;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 28px;
+      margin: 0;
+    }
+
+    .timeInterval {
+      padding: 16px;
+      margin-top: 16px;
+      width: calc(100% - 32px);
+      border-radius: 8px;
+      background: $backgroundSecondaryBlue;
+
+      .text {
+        color: $textDark;
+
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 28px;
+      }
+    }
+
+    .progressCircleContainer {
+      margin: 32px 0 40px 0;
+    }
+
+    .attendanceStatus {
+      display: flex;
+      margin-bottom: 16px;
+      gap: 24px;
+      padding: 16px;
+      width: calc(100% - 32px);
+      border-radius: 8px;
+      background: $backgroundSecondaryBlue;
+    }
+  }
+
+  .breakDownCalendar {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 1px 3px 0px rgba(16, 24, 40, 0.1),
+      0px 1px 2px 0px rgba(16, 24, 40, 0.06);
+    padding: 0 24px 24px 24px;
+    border-radius: 8px;
+
+    .status {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+
+      .statusChip {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eef4ff;
+        box-shadow: none;
+
+        font-family: Inter;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+
+        &.present {
+          background: $backgroundInfo;
+          color: $textInfo;
+        }
+
+        &.absence {
+          background: $backgroundLightRed;
+          color: $textRed;
+        }
+
+        &.partiallyPresent {
+          background: $bacgroundWarning;
+          color: $warningHover;
+        }
+
+        &.leave {
+          background: $backgroundDark;
+          color: $textPrimary;
+        }
+      }
+
+      .circle {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+
+        &.present {
+          background: $colorLightBlue;
+        }
+
+        &.absence {
+          background: $colorLightPink;
+        }
+
+        &.partiallyPresent {
+          background: $colorWarning;
+        }
+
+        &.leave {
+          background: $textPrimary;
+        }
+      }
+    }
+  }
+}

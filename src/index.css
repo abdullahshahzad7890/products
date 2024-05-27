@@ -1,0 +1,13 @@
+@import url("https://rsms.me/inter/inter.css");
+
+@font-face {
+  font-family: Jameel;
+  src: url("./assets/fonts/JameelNooriNastaleeq.woff");
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
