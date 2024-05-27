@@ -12,44 +12,8 @@ const Products = () => {
   const [error, setError] = useState(null);
   const [productDetails, setProductDetails] = useState({});
   const [brandSummary, setBrandSummary] = useState(null);
-  const [summaryLoading, setSummaryLoading] = useState(true);
+  const [summaryLoading, setSummaryLoading] = useState(false);
   const [noMortgages, setNoMortgages] = useState({});
-
-  useEffect(() => {
-    const fetchBrandSummary = async () => {
-      try {
-        const headers = new Headers();
-        headers.append("x-v", "1");
-
-        const requestOptions = {
-          method: "GET",
-          headers: headers,
-          redirect: "follow",
-        };
-
-        const response = await fetch(
-          "https://api.cdr.gov.au/cdr-register/v1/all/data-holders/brands/summary",
-          requestOptions
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch brand summary");
-        }
-
-        const result = await response.json();
-        console.log(result, "brand summary");
-
-        setBrandSummary(result.data.brands);
-        setSummaryLoading(false);
-        setError(null);
-      } catch (error) {
-        setError(error.message);
-        setSummaryLoading(false);
-      }
-    };
-
-    fetchBrandSummary();
-  }, []);
 
   const fetchData = async (publicBaseUri, brandName) => {
     try {
@@ -172,8 +136,8 @@ const Products = () => {
           <div>Loading brand summary...</div>
         ) : (
           <div>
-            {brandSummary &&
-              brandSummary.map((brand) => (
+            {summary &&
+              summary.map((brand) => (
                 <div key={brand.brandId} style={{ padding: "10px" }}>
                   <div
                     style={{
