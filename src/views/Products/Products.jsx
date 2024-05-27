@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Layout from "../../components/Layout/Layout";
 import { useAppDispatch } from "../../store/store";
@@ -13,43 +13,6 @@ const Products = () => {
   const [productDetails, setProductDetails] = useState({});
   const [brandSummary, setBrandSummary] = useState(null);
   const [summaryLoading, setSummaryLoading] = useState(false);
-
-  // useEffect(() => {
-  //   const fetchBrandSummary = async () => {
-  //     try {
-  //       const headers = new Headers();
-  //       headers.append("x-v", "1");
-  //       headers.append("x-min-v", "4");
-
-  //       const requestOptions = {
-  //         method: "GET",
-  //         headers: headers,
-  //         redirect: "follow",
-  //       };
-
-  //       const response = await fetch(
-  //         "https://api.cdr.gov.au/cdr-register/v1/banking/data-holders/brands/summary",
-  //         requestOptions
-  //       );
-
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch brand summary");
-  //       }
-
-  //       const result = await response.json();
-  //       console.log(result, "brand summary");
-
-  //       setBrandSummary(result.data.brands);
-  //       setSummaryLoading(false);
-  //       setError(null);
-  //     } catch (error) {
-  //       setError(error.message);
-  //       setSummaryLoading(false);
-  //     }
-  //   };
-
-  //   fetchBrandSummary();
-  // }, []);
 
   const fetchData = async (publicBaseUri, brandName) => {
     try {
@@ -79,9 +42,14 @@ const Products = () => {
       const result = await response.json();
       console.log(result, "result");
 
+      // Filter products by category 'RESIDENTIAL_MORTGAGES'
+      const filteredProducts = result.data.products.filter(
+        (product) => product.productCategory === "RESIDENTIAL_MORTGAGES"
+      );
+
       setData((prevData) => ({
         ...prevData,
-        [brandName]: result.data.products,
+        [brandName]: filteredProducts,
       }));
       setLoading((prevLoading) => ({
         ...prevLoading,
@@ -99,6 +67,9 @@ const Products = () => {
 
   const fetchProductDetails = async (publicBaseUri, productId) => {
     try {
+      // Reset product details before fetching new details
+      setProductDetails({});
+
       setLoading((prevLoading) => ({
         ...prevLoading,
         [productId]: true,
@@ -243,18 +214,145 @@ const Products = () => {
                             </div>
                             <div>
                               <strong>Fees:</strong>
-                              <ul>
-                                {productDetails[product.productId].fees &&
-                                  productDetails[product.productId].fees.map(
-                                    (fee, index) => (
-                                      <li key={index}>
-                                        {fee.name} ({fee.feeType}):{" "}
-                                        {fee.amount || fee.transactionRate}{" "}
-                                        {fee.currency} - {fee.additionalInfo}
-                                      </li>
-                                    )
-                                  )}
-                              </ul>
+                              <table
+                                style={{
+                                  borderCollapse: "collapse",
+                                  width: "100%",
+                                }}
+                              >
+                                <thead>
+                                  <tr>
+                                    <th style={{ border: "1px solid black" }}>
+                                      Fee Type
+                                    </th>
+                                    <th style={{ border: "1px solid black" }}>
+                                      Name
+                                    </th>
+                                    <th style={{ border: "1px solid black" }}>
+                                      Amount
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {productDetails[product.productId].fees &&
+                                    productDetails[product.productId].fees.map(
+                                      (fee, index) => (
+                                        <tr key={index}>
+                                          <td
+                                            style={{
+                                              border: "1px solid black",
+                                            }}
+                                          >
+                                            {fee.feeType}
+                                          </td>
+                                          <td
+                                            style={{
+                                              border: "1px solid black",
+                                            }}
+                                          >
+                                            {fee.name}
+                                          </td>
+                                          <td
+                                            style={{
+                                              border: "1px solid black",
+                                            }}
+                                          >
+                                            {fee.amount || fee.transactionRate}{" "}
+                                            {fee.currency}
+                                          </td>
+                                        </tr>
+                                      )
+                                    )}
+                                </tbody>
+                              </table>
+                            </div>
+                            <div>
+                              <strong>Features:</strong>
+                              <table
+                                style={{
+                                  borderCollapse: "collapse",
+                                  width: "100%",
+                                }}
+                              >
+                                <thead>
+                                  <tr>
+                                    <th style={{ border: "1px solid black" }}>
+                                      Feature Type
+                                    </th>
+                                    <th style={{ border: "1px solid black" }}>
+                                      Additional Info
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {productDetails[product.productId].features &&
+                                    productDetails[
+                                      product.productId
+                                    ].features.map((feature, index) => (
+                                      <tr key={index}>
+                                        <td
+                                          style={{ border: "1px solid black" }}
+                                        >
+                                          {feature.featureType}
+                                        </td>
+                                        <td
+                                          style={{ border: "1px solid black" }}
+                                        >
+                                          {feature.additionalValue ||
+                                            feature.additionalInfo}
+                                        </td>
+                                      </tr>
+                                    ))}
+                                </tbody>
+                              </table>
+                            </div>
+                            <div>
+                              <strong>Lending Rates:</strong>
+                              <table
+                                style={{
+                                  borderCollapse: "collapse",
+                                  width: "100%",
+                                }}
+                              >
+                                <thead>
+                                  <tr>
+                                    <th style={{ border: "1px solid black" }}>
+                                      Rate Type
+                                    </th>
+                                    <th style={{ border: "1px solid black" }}>
+                                      Rate
+                                    </th>
+                                    <th style={{ border: "1px solid black" }}>
+                                      Additional Info
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {productDetails[product.productId]
+                                    .lendingRates &&
+                                    productDetails[
+                                      product.productId
+                                    ].lendingRates.map((rate, index) => (
+                                      <tr key={index}>
+                                        <td
+                                          style={{ border: "1px solid black" }}
+                                        >
+                                          {rate.lendingRateType}
+                                        </td>
+                                        <td
+                                          style={{ border: "1px solid black" }}
+                                        >
+                                          {rate.rate}
+                                        </td>
+                                        <td
+                                          style={{ border: "1px solid black" }}
+                                        >
+                                          {rate.additionalInfo}
+                                        </td>
+                                      </tr>
+                                    ))}
+                                </tbody>
+                              </table>
                             </div>
                           </div>
                         )}
